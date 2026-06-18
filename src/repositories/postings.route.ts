@@ -168,6 +168,8 @@ class PostingsRepository {
     job_type?: string;
     salary_min?: number;
     salary_max?: number;
+    sort?: string;
+    order?: string;
   }) => {
     const {
       page,
@@ -178,15 +180,14 @@ class PostingsRepository {
       job_type,
       salary_min,
       salary_max,
+      sort = "created_at",
+      order = "desc",
     } = filters;
     const skip = (page - 1) * limit;
 
     // Build where clause
     const where: any = {
       deletedAt: null,
-      expiredAt: {
-        gte: new Date(), // Only show jobs that haven't expired
-      },
     };
 
     // Add search filter
@@ -250,7 +251,7 @@ class PostingsRepository {
           },
         },
         orderBy: {
-          createdAt: "desc",
+          [sort === "created_at" ? "createdAt" : sort]: order === "asc" ? "asc" : "desc",
         },
         skip,
         take: limit,

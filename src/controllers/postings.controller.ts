@@ -162,6 +162,8 @@ class PostingsController {
       const salary_max = req.query.salary_max
         ? parseInt(req.query.salary_max as string)
         : undefined;
+      const sort = (req.query.sort as string) || "created_at";
+      const order = (req.query.order as string) || "desc";
 
       const result = await this.postingsService.getAllJobPostings({
         page,
@@ -172,6 +174,8 @@ class PostingsController {
         job_type,
         salary_min,
         salary_max,
+        sort,
+        order,
       });
 
       sendResponse(res, "success get all job postings", 200, result);

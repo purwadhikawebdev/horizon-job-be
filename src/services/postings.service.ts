@@ -98,6 +98,8 @@ class PostingsService {
     job_type?: string;
     salary_min?: number;
     salary_max?: number;
+    sort?: string;
+    order?: string;
   }) => {
     const result = await this.postingsRepository.getAllJobPostings(filters);
     const totalPage = Math.ceil(result.totalJobs / filters.limit);
